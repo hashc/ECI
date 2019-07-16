@@ -8,7 +8,7 @@
   根据第三大特征根的结果
  ![](matrix_3rd_eig_pci.png)
  
- - 迭代法计算ECI
+ - 迭代法计算ECI by Yanbo Zhang
  ECIPCI.py
  总时间大概为10s
  ![](iter.png)
