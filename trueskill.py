@@ -59,7 +59,8 @@ def fastupdate(mw,sw,ml,sl,beta): # miu and sigma of winner and loser
     return mw,sw,ml,sl
 # update
 @timelogger
-def update(E0,F,beta,iter_time,record = False):
+def update(E1,F,beta,iter_time,record = False):
+    E0 = copy.deepcopy(E1)
     E={}
     if record:
         E[0]=copy.deepcopy(E0)
@@ -73,16 +74,16 @@ def update(E0,F,beta,iter_time,record = False):
                 E0[loser]=[nml,nsl]
             E[i]=copy.deepcopy(E0)
     else:
-        E = copy.deepcopy(E0)
-        for i in range(iter_time):
-            print("==iter %d=="%(i+1),end='\r')
+        for i in range(1,iter_time+1):
+            print("==iter %d=="%(i),end='\r')
             for winner, loser in F:
                 mw,sw = E0[winner]
                 ml,sl = E0[loser]
                 nmw,nsw,nml,nsl = fastupdate(mw,sw,ml,sl,beta)
                 E0[winner]=[nmw,nsw]
                 E0[loser]=[nml,nsl]
-    return E,E0
+        E = copy.deepcopy(E0)
+    return E
 def get_QS_US(E0,Qid2,Uid2,Search):
     US0={}
     QS0={}
@@ -101,7 +102,7 @@ def get_trueskill(toy_data0,iter_time=1,record = False):
     mu = 25.0; sigma = 25.0/3; beta = sigma/2
     for i in range(n): 
         E0[i]=[mu,sigma]
-    E,E0 = update(E0,F,beta,iter_time,record = record)
+    E = update(E0,F,beta,iter_time,record = record)
     if record:
         EE = {}
         for i in E:
@@ -109,7 +110,7 @@ def get_trueskill(toy_data0,iter_time=1,record = False):
             US0,QS0 = get_QS_US(E[i],Qid2,Uid2,Search)
             EE[i] = [copy.deepcopy(US0),copy.deepcopy(QS0)]
     else:
-        US0,QS0 = get_QS_US(E0,Qid2,Uid2,Search)
+        US0,QS0 = get_QS_US(E,Qid2,Uid2,Search)
         EE = [copy.deepcopy(US0),copy.deepcopy(QS0)]
             
     return EE
