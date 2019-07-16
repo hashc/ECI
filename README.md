@@ -1,4 +1,5 @@
-# ECI使用指南
+# 使用指南
+## ECI部分
  - cid提供的ECI调用接口 https://github.com/cid-harvard/py-ecomplexity
  - 矩阵法计算ECI
  ECI.py
@@ -12,3 +13,8 @@
  ECIPCI.py
  总时间大概为10s
  ![](iter.png)
+ 
+ ## Trueskill部分
+ 
+ - trueskill.py
+ 使用实例在true_skill_toy_model.ipynb上面，需要在输入的时候把问题加上标签Q,例如'Q1'
