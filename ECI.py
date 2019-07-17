@@ -10,7 +10,7 @@ def timelogger(func):
         print("==Time %.2f=="%(time.perf_counter()-start))
         return func(*args, **kwargs) #2
     return inner
-
+@timelogger
 def RCA(Xcp):
     """
     Xcp is a numpy.matrix type
@@ -33,7 +33,7 @@ def RCA(Xcp):
     R[R>=1]=1
     R[R<1]=0
     return R.astype(float)
-
+@timelogger
 def RCA_sparse(M):
     B = M.sum(1)*M.sum(0) 
     Sum = M.sum()
