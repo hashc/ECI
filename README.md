@@ -9,9 +9,9 @@
      - 根据第三大特征根的结果
          ![](matrix_3rd_eig_pci.png)
      - 如果需要调用RCA ,调用RCA(M)或者RCA_sparse(M)直接得到RCA处理后的0-1矩阵
-         - 根据次大特征根的结果
+     - 根据次大特征根的结果
          ![](matrix_2nd_eig_pci(rca).png)
-         - 根据第三大特征根的结果
+     - 根据第三大特征根的结果
          ![](matrix_3rd_eig_pci(rca).png)     
  - 迭代法计算ECI   (ECIPCI.py)   
      - by Yanbo Zhang
