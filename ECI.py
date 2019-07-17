@@ -30,6 +30,15 @@ def RCA(Xcp):
     B = Xcp.sum(1)*Xcp.sum(0) 
     Sum = Xcp.sum()
     return Xcp*Sum/B
+
+def RCA_sparse(M):
+    B = M.sum(1)*M.sum(0) 
+    Sum = M.sum()
+    R = sparse.lil_matrix(M*Sum/B)
+    R[R>=1]=1
+    R[R<1]=0
+    R = R.tocsc()
+    return R
     
 def fliterRCA(R):
     M = R>=1
