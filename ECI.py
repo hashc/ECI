@@ -29,7 +29,10 @@ def RCA(Xcp):
         pass
     B = Xcp.sum(1)*Xcp.sum(0) 
     Sum = Xcp.sum()
-    return Xcp*Sum/B
+    R= Xcp*Sum/B
+    R[R>=1]=1
+    R[R<1]=0
+    return R.astype(float)
 
 def RCA_sparse(M):
     B = M.sum(1)*M.sum(0) 
@@ -39,10 +42,6 @@ def RCA_sparse(M):
     R[R<1]=0
     R = R.tocsc()
     return R
-    
-def fliterRCA(R):
-    M = R>=1
-    return M.astype(float)
 
 @timelogger
 def Get_eci_pci(M):
