@@ -3,9 +3,9 @@
  - cid提供的ECI调用接口 https://github.com/cid-harvard/py-ecomplexity
  - 矩阵法计算ECI(ECI.py)
      - 在小双的数据集上，构建矩阵的时间为1.314秒，计算时间为0.16s
-         ![](matrix_2nd_eig.png)
+         ![](matrix_eig.png)
      - 如果需要调用RCA ,调用RCA(M)或者RCA_sparse(M)直接得到RCA处理后的0-1矩阵
-         ![](matrix_2nd_eig(rca).png)    
+         ![](matrix_eig(rca).png)    
  - 迭代法计算ECI   (ECIPCI.py)   
      - by Yanbo Zhang
      - 总时间大概为10s
