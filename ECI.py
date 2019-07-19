@@ -63,9 +63,9 @@ def Get_eci_pci(M):
     s1 = np.sign(np.corrcoef(M.sum(1).reshape(-1), kc.reshape(-1))[0, 1])
     eci = s1 * kc
     pci = s1 * kp  
-    return eci.T.tolist()[0],pci.T.tolist()[0]
+    return {'eci':Get_z_score(eci.T.tolist()[0]),'pci':Get_z_score(pci.T.tolist()[0])}
 @timelogger
-def Get_eci_pci_sparse(M):
+def Get_eci_pci_sparse(M,third_eig=False):
     d = M.sum(1).T.tolist()[0]
     u = M.sum(0).tolist()[0]
     nd,nu = len(d),len(u)
@@ -79,24 +79,28 @@ def Get_eci_pci_sparse(M):
     mcp2 = M * U1
     del U1
     #Mcc = mcp1 @ mcp2.T
-    Mpp = mcp2.T @ mcp1
+    Mpp = mcp2.T * mcp1
     Mpp = scipy.sparse.csc_matrix(Mpp)
     eigvals, eigvecs = scipy.sparse.linalg.eigs(Mpp, k=3)
     eigvecs = np.real(eigvecs)
     # Get eigenvector corresponding to second largest eigenvalue
     eig_index2 = eigvals.argsort()[-2]
-    eig_index3 = eigvals.argsort()[-3]
     kp2 = eigvecs[:, eig_index2]
-    kp3 = eigvecs[:, eig_index3]
-    kc2 = mcp1 @ kp2
-    kc3 = mcp1 @ kp3
+    kc2 = mcp1 * kp2
     s2 = np.sign(np.corrcoef(M.sum(1).reshape(-1), kc2.reshape(-1))[0, 1])
-    s3 = np.sign(np.corrcoef(M.sum(1).reshape(-1), kc2.reshape(-1))[0, 1])
     eci2 = s2 * kc2
     pci2 = s2 * kp2
-    eci3 = s3 * kc3
-    pci3 = s3 * kp3
-    return eci2,pci2,eci3,pci3
+    Dict={"eci":Get_z_score(eci2),'pci':Get_z_score(pci2)}
+    if third_eig:
+        eigvals, eigvecs = scipy.sparse.linalg.eigs(Mpp, k=3)
+        eig_index3 = eigvals.argsort()[-3]
+        kp3 = eigvecs[:, eig_index3]
+        kc3 = mcp1 * kp3
+        s3 = np.sign(np.corrcoef(M.sum(1).reshape(-1), kc2.reshape(-1))[0, 1])
+        eci3 = s3 * kc3
+        pci3 = s3 * kp3
+        Dict={"eci":Get_z_score(eci2),'pci':Get_z_score(pci2),'eci3':Get_z_score(eci3),'pci3':Get_z_score(pci3)}
+    return Dict
 
 def Get_z_score(x):
     x=np.array(x)
